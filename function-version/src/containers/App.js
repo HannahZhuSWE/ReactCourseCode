@@ -1,7 +1,8 @@
-import React, { Component, useState } from 'react';
+import React, { useState } from 'react';
 import './App.css';
-import Persons from '../components/Persons/Persons'
-import Cockpit from '../components/Cockpit/Cockpit'
+import Persons from '../components/Persons/Persons';
+import Cockpit from '../components/Cockpit/Cockpit';
+import AuthContext from '../context/Auth-context';
 
 const App = props => {
   const [personsState, setPersonsState] = useState(
@@ -13,6 +14,7 @@ const App = props => {
 
   const [showPersons, setShowPersons] = useState(false);
   const [showCockpit, setCockpit] = useState(true);
+  const [authenticated, setAuthenticated] = useState(false);
 
   const nameChangedHandler = (event, id) => {
     const personIndex = personsState.findIndex(p=>{
@@ -71,11 +73,13 @@ const App = props => {
     return (
       <div className="App">
         <button onClick={() => {setCockpit(false)}}>Remove Cockpit</button>
-        {showCockpit? <Cockpit 
-        clicked={togglePersonsHandler} 
-        title={props.appTitle}
-        /> : null}
-        {persons}
+        <AuthContext.Provider value={{authenticated: authenticated, login: () => {setAuthenticated(true)}}}>
+          {showCockpit? <Cockpit 
+          clicked={togglePersonsHandler} 
+          title={props.appTitle}
+          /> : null}
+          {persons}
+        </AuthContext.Provider>
       </div>
     );
   }

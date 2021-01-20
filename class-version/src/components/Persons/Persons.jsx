@@ -8,10 +8,6 @@ class Persons extends Component {
         return state;
     } */
 
-    shouldComponentUpdate(nextProps, nextState){
-        console.log('[Persons.js] shouldComponentUpdate...');
-        return (nextProps.persons !== this.props.persons || nextProps.clicked != this.props.clicked || nextProps.changed != this.props.changed);
-    }
 
     getSnapshotBeforeUpdate(prevProps, prevState){
         console.log('[Persons.js] getSnapshotBeforeUpdate...');
@@ -36,7 +32,8 @@ class Persons extends Component {
                     name={person.name}
                     age={person.age}
                     key={person.id}
-                    changed={(event)=>this.props.changed(event, person.id)}/>)
+                    changed={(event)=>this.props.changed(event, person.id)}
+                />)
         })
     }
     

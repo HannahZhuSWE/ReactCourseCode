@@ -1,13 +1,12 @@
-import React, {useEffect} from 'react';
+import React, {useContext, useEffect, useRef} from 'react';
+import AuthContext from '../../context/Auth-context';
 
 const Cockpit = (props) => {
+    const toggleBtnRef = useRef();
+    const authContext = useContext(AuthContext);
     useEffect(() =>{
         console.log('[Cockpit.js] useEffect');
-        //Http request...
-        setTimeout(()=>{
-            alert('Saved data');
-        }, 1000);
-
+        toggleBtnRef.current.click();
         return () => {
             console.log('[Cockpit.js] cleanup work useEffect');
         }
@@ -17,7 +16,11 @@ const Cockpit = (props) => {
             <h1>{props.title}</h1>
             <p>This is really working!</p>
             <button 
-            onClick={props.clicked}>Toggle Persons
+            onClick={props.clicked}
+            ref = {toggleBtnRef}>Toggle Persons
+            </button>
+            <button onClick={authContext.login}>
+                Log in
             </button>
         </div>
         
