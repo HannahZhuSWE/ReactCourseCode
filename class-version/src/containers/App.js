@@ -3,6 +3,7 @@ import './App.css';
 import Persons from '../components/Persons/Persons';
 import Cockpit from '../components/Cockpit/Cockpit';
 import AuthContext from '../context/Auth-context';
+import Radium, {StyleRoot} from 'radium';
 
 class App extends Component {
   constructor(props){
@@ -10,6 +11,7 @@ class App extends Component {
     console.log('[App.js] constructor');
     //could use this.state = something here
   }
+
   state = {
     persons: [
       { id: 'sdfgh', name: 'Max', age: 28 },
@@ -79,11 +81,15 @@ class App extends Component {
   render() {
     console.log('[App.js render');
     const style = {
-      backgroundColor: 'white',
+      backgroundColor: 'green',
+      color: 'white',
       font: 'inherit',
-      border: '1px solid blue',
       padding: '8px',
-      cursor: 'pointer'
+      cursor: 'pointer',
+      ':hover':{
+        backgroundColor: 'lightgreen',
+        color: 'black'
+      }
     };
 
     let persons = null;
@@ -95,21 +101,41 @@ class App extends Component {
                 clicked={this.deletePersonHandler}
                 changed={this.nameChangedHandler}/>              
       );
+      style.backgroundColor= 'red';
+      style[':hover'] = {
+        backgroundColor: 'salmon',
+        color: 'black'
+      }
+    }
+
+    const classes = [];
+
+    if(this.state.persons.length <= 2){
+      classes.push('red');
+    }
+
+    if(this.state.persons.length <=1){
+      classes.push('bold');
     }
 
     return (
-      <div className="App">
-        <AuthContext.Provider value={{authenticated: this.state.authenticated, login: this.loginHandler}}>
-          <Cockpit 
-            title={this.props.appTitle}
-            showPersons={this.state.showPersons} 
-            persons={this.state.persons}
-            clicked={this.togglePersonsHandler}/>
-          {persons}  
-        </AuthContext.Provider>
+      <StyleRoot>
+        <div className="App">
+          <AuthContext.Provider value={{authenticated: this.state.authenticated, login: this.loginHandler}}>
+            <Cockpit 
+              paragraphStyle={classes.join(' ')}
+              buttonStyle={style}
+              title={this.props.appTitle}
+              showPersons={this.state.showPersons} 
+              persons={this.state.persons}
+              clicked={this.togglePersonsHandler}/>
+            {persons}  
+          </AuthContext.Provider>
           
-      </div>
+        </div>
+      </StyleRoot>
+      
     ); }
 }
 
-export default App;
+export default Radium(App);

@@ -75,6 +75,7 @@ const App = props => {
         <button onClick={() => {setCockpit(false)}}>Remove Cockpit</button>
         <AuthContext.Provider value={{authenticated: authenticated, login: () => {setAuthenticated(true)}}}>
           {showCockpit? <Cockpit 
+          buttonColorRed={showPersons}
           clicked={togglePersonsHandler} 
           title={props.appTitle}
           /> : null}
